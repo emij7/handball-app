@@ -3,15 +3,12 @@ import GG from "@/components/GG";
 import {
   Button,
   Grid,
-  Input,
   MenuItem,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "@/firebase";
 import { getCookie, setCookie } from "cookies-next";
 
 const currentYear = new Date().getFullYear();
@@ -79,7 +76,7 @@ const NuevoPartido = () => {
       <GG>
         <Typography variant="h4">Equipo: {nombreEquipo}</Typography>
       </GG>
-      <GG size={6}>
+      <GG size={12}>
         <Select
           value={torneo}
           onChange={(e) => setTorneo(e.target.value)}
@@ -97,7 +94,7 @@ const NuevoPartido = () => {
           >{`Clausura - ${currentYear}`}</MenuItem>
         </Select>
       </GG>
-      <GG size={6}>
+      <GG size={12}>
         <TextField
           value={rival}
           onChange={(e) => setRival(e.target.value)}

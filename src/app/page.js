@@ -43,7 +43,7 @@ export default function Home() {
   };
 
   return (
-    <Grid container py={10} px={4}>
+    <Grid container py={10} px={4} spacing={2}>
       <GG size={12} pb={5}>
         <Typography variant="h4" textAlign="center">
           Elegir equipo
@@ -59,14 +59,14 @@ export default function Home() {
         <Button variant="contained">Button 1</Button>
       </GG> */}
       {loading ? (
-        <GG size={12} mt={10}>
+        <GG size={12} mt={5}>
           <Typography variant="h6" textAlign="center">
             Cargando equipos...
           </Typography>
         </GG>
       ) : equipos.length > 0 ? (
         equipos.map((equipo, index) => (
-          <GG size={4} key={index}>
+          <GG size={12} key={index}>
             <Button
               variant="contained"
               onClick={() => handleTeamSelection(equipo)}
@@ -76,13 +76,13 @@ export default function Home() {
           </GG>
         ))
       ) : (
-        <GG size={12} mt={10}>
+        <GG size={12} mt={5}>
           <Typography variant="h6" textAlign="center">
             No hay equipos
           </Typography>
         </GG>
       )}
-      <GG size={12} mt={12} pb={5}>
+      <GG size={12} mt={5} pb={5}>
         <Typography variant="h4" textAlign="center">
           Crear nuevo
         </Typography>

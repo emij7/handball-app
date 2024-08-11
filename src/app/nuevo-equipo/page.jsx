@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { db } from "@/firebase";
 
 const NuevoEquipo = () => {
@@ -48,7 +48,6 @@ const NuevoEquipo = () => {
       });
 
       // Optionally, display a success message
-      console.log("Team added successfully!");
     } catch (error) {
       console.error("Error adding team:", error);
     } finally {

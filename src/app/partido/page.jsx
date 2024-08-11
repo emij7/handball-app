@@ -11,7 +11,17 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  getDocs,
+  query,
+  Timestamp,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "@/firebase";
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { BorderBottom } from "@mui/icons-material";
@@ -26,14 +36,25 @@ const Partido = () => {
     titulo: "",
     tipo: "",
   });
+  const [resultado, setResultado] = useState({
+    equipo: 0,
+    rival: 0,
+  });
+
+  const getDocsByNombre = async (teamId) => {
+    const clausuraRef = collection(db, "teams", teamId, "clausura");
+    const q = query(clausuraRef, where("nombre", "==", "emi"));
+    const querySnapshot = await getDocs(q);
+    const results = querySnapshot.docs.map((doc) => doc.data());
+  };
 
   useEffect(() => {
     const partido = getCookie("partido");
-    console.log(partido);
     if (!partido) {
       window.location.href = "/";
     } else {
       const parsedPartidos = JSON.parse(partido);
+      getDocsByNombre(parsedPartidos.nombreEquipo);
       const jugadores = parsedPartidos.jugadores;
       setJugadores(jugadores);
     }
@@ -51,6 +72,40 @@ const Partido = () => {
     setElegirJugador(true);
   };
 
+  const handleSavePartido = async () => {
+    const partido = getCookie("partido");
+    const parsedPartido = JSON.parse(partido);
+    try {
+      setLoading(true);
+      const torneoRef = collection(
+        db,
+        "teams",
+        parsedPartido.nombreEquipo,
+        parsedPartido.torneo
+      );
+
+      const refNuevoPartido = await addDoc(torneoRef, {
+        tipo: "partido",
+        goles: parsedPartido.resultado?.equipo || 0,
+        golesRival: parsedPartido.resultado?.rival || 0,
+        fecha: Timestamp.now(),
+      });
+      let jugadores = parsedPartido.jugadores;
+      for (const jugador of jugadores) {
+        await addDoc(torneoRef, {
+          ...jugador,
+          partidoId: refNuevoPartido.id,
+        });
+      }
+
+      setLoading(false);
+      setElegirJugador(false);
+      setCookie("partido", JSON.stringify({}));
+      window.location.href = "/equipo";
+      console.log("Partido guardado con éxito");
+    } catch (error) {}
+  };
+
   return (
     <Grid container spacing={4} p={4}>
       {elegirJugador ? (
@@ -58,6 +113,8 @@ const Partido = () => {
           setElegirJugador={setElegirJugador}
           tipoJugada={tipoJugada}
           jugadores={jugadores}
+          setResultado={setResultado}
+          resultado={resultado}
         />
       ) : (
         <>
@@ -333,7 +390,12 @@ const Partido = () => {
             </Button>
           </GG>
           <GG size={6}>
-            <Button variant="contained" color="primary" bled={loading}>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={loading}
+              onClick={handleSavePartido}
+            >
               Finalizar
             </Button>
           </GG>

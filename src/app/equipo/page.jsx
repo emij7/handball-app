@@ -57,6 +57,13 @@ const Equipo = () => {
     }
   };
 
+  const handleRedirectToEstadisticas = (jugador) => {
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 7);
+    setCookie("nombre", jugador, { expires: expirationDate });
+    window.location.href = "/estadistica";
+  };
+
   return (
     <Grid container spacing={4} p={4}>
       <GG>
@@ -79,13 +86,17 @@ const Equipo = () => {
       {jugadores.map((jugador, index) => (
         <GG key={index} size={12}>
           <Typography type="text">{jugador.nombre}</Typography>
-          <Button variant="contained" color="success">
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => handleRedirectToEstadisticas(jugador.nombre)}
+          >
             Estadísticas
           </Button>
         </GG>
       ))}
 
-      <GG size={3}>
+      <GG size={6}>
         <TextField
           type="text"
           value={nuevoJugador.nombre}
@@ -96,7 +107,7 @@ const Equipo = () => {
           fullWidth
         />
       </GG>
-      <GG size={3}>
+      <GG size={6}>
         <Select
           value={nuevoJugador.posicion}
           onChange={(e) =>
@@ -108,7 +119,7 @@ const Equipo = () => {
         </Select>
       </GG>
 
-      <GG size={6}>
+      <GG size={12}>
         <Button
           variant="contained"
           color="secondary"
