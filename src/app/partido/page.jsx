@@ -314,8 +314,8 @@ const Partido = () => {
             }}
           ></GG>
           {/* Perdida */}
-          <GG size={3}>Perdida</GG>
-          <GG size={3}>
+          <GG size={4}>Perdida/Recu</GG>
+          <GG size={4}>
             <Button
               variant="contained"
               onClick={() => elegirTipo("perdida", "pase")}
@@ -324,7 +324,7 @@ const Partido = () => {
               Pase
             </Button>
           </GG>
-          <GG size={3}>
+          <GG size={4}>
             <Button
               variant="contained"
               onClick={() => elegirTipo("perdida", "doble")}
@@ -333,7 +333,16 @@ const Partido = () => {
               Doble
             </Button>
           </GG>
-          <GG size={3}>
+          <GG size={4}>
+            <Button
+              variant="contained"
+              onClick={() => elegirTipo("recuperacion", "recuperacion")}
+              color="success"
+            >
+              Recuperó
+            </Button>
+          </GG>
+          <GG size={4}>
             <Button
               variant="contained"
               onClick={() => elegirTipo("perdida", "otro")}

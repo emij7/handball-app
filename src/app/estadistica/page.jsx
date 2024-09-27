@@ -129,6 +129,9 @@ const Equipo = () => {
       const sancionRoja = data.reduce((acc, curr) => {
         return acc + (curr.sancion?.roja || 0);
       }, 0);
+      const recuperacion = data.reduce((acc, curr) => {
+        return acc + (curr.recuperacion.recuperacion || 0);
+      }, 0);
       setEstadisticas({
         goles9: goles9,
         goles6c: goles6c,
@@ -149,6 +152,7 @@ const Equipo = () => {
         golContraPenal: golContraPenal,
         golContraContra: golContraContra,
         perdidaPase: perdidaPase,
+        recuperacion: recuperacion,
         perdidaDoble: perdidaDoble,
         perdidaOtro: perdidaOtro,
         sancion2m: sancion2m,
@@ -171,6 +175,12 @@ const Equipo = () => {
         <GG>Cargando...</GG>
       ) : (
         <Grid container spacing={1} p={4}>
+          <GG size={12}>
+            <Typography>Recuperaciones</Typography>
+          </GG>
+          <GG size={6}>
+            <Typography>{estadisticas.recuperacion || 0}</Typography>
+          </GG>
           <GG size={12}>
             <Typography>Goles</Typography>
           </GG>
