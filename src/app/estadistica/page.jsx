@@ -179,6 +179,9 @@ const Equipo = () => {
             <Typography>Recuperaciones</Typography>
           </GG>
           <GG size={6}>
+            <Typography>Total:</Typography>
+          </GG>
+          <GG size={6}>
             <Typography>{estadisticas.recuperacion || 0}</Typography>
           </GG>
           <GG size={12}>
